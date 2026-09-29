@@ -5,7 +5,7 @@ local hash = require("loom.util.hash")
 local M = {}
 
 local STORE_PATH = "/silk/store"
-local AUR_DEB_CACHE_PATH = "/silk/weave/cache/aur-deb"
+local AUR_CACHE_PATH = "/silk/weave/cache/aur"
 local MERGE_PATH = "/silk/ostree/staged"
 local OSTREE_REPO = "/silk/ostree/repo"
 local OSTREE_BRANCH = "silk"
@@ -38,7 +38,7 @@ local function cache_dir_for(recipe)
   if recipe.source.kind == "native" or recipe.source.kind == "nix" then
     return STORE_PATH
   else
-    return AUR_DEB_CACHE_PATH
+    return AUR_CACHE_PATH
   end
 end
 
@@ -62,7 +62,7 @@ local function place_in_cache(entry)
   end
 
   local target_dir = cache_dir_for(entry.recipe) ..
-  "/" .. entry.input_hash .. "-" .. entry.recipe.name .. "-" .. entry.recipe.version
+      "/" .. entry.input_hash .. "-" .. entry.recipe.name .. "-" .. entry.recipe.version
 
   shell.run("mkdir -p " .. hash.shell_quote(target_dir))
   shell.run("cp -a " .. hash.shell_quote(entry.destdir) .. "/. " .. hash.shell_quote(target_dir) .. "/")

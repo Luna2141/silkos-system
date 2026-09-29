@@ -30,7 +30,7 @@ end
 
 local function foreign_source_match(recipes)
   for _, recipe in ipairs(recipes) do
-    if recipe.source.kind == "aur" or recipe.source.kind == "deb" then
+    if recipe.source.kind == "aur" then
       return true, ("package '%s' (%s) requires a reboot to apply"):format(recipe.name, recipe.source.kind)
     end
   end

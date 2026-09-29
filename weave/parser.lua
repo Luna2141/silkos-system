@@ -4,7 +4,6 @@
 local SOURCE_SUFFIXES = {
   aur = "aur",
   nix = "nix",
-  deb = "deb",
 }
 
 -- Splits "package_name.aur" -> name="package_name", kind="aur"
