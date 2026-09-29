@@ -1,8 +1,8 @@
 # Weave
 
-Weave is the declarative package resolution and build system for [SilkOS](https://github.com/) — a non-systemd Linux distribution configured entirely in Lua. Weave is what `fabric.lua` (SilkOS's system manifest, akin to `configuration.nix`) actually calls into to turn a list of declared packages into real, built software on disk.
+Weave is the declarative package resolution and build system for SilkOS — a non-systemd, Nix-Like Linux distribution configured entirely in Lua. Weave is what `fabric.lua` (SilkOS's system manifest, akin to `configuration.nix`) actually calls into to turn a list of declared packages into real, built software on disk.
 
-> **Status: early, active development.** Weave is not yet functional end-to-end. Core resolution (`parser` → `schema` → `resolver` → `sources/*`) works for native packages; the execution engine (`executor.lua`) and storage staging (OSTree/`store/` commit) are still being built out. Expect breaking changes. See [Open Questions](#open-questions) below.
+> **Status: early, active development.** Weave is not yet functional end-to-end. Core resolution (`parser` → `schema` → `resolver` → `sources/*`) works for native packages; the execution engine (`executor.lua`) and storage staging (OSTree/`store/` commit) are still being built out. Expect breaking changes.
 
 ## What Weave does
 
@@ -97,17 +97,7 @@ lua recipes/recipe.lua > weave/recipes/<name>.lua
 - **One resolution path.** Every source kind normalizes to the same `Recipe` shape and is validated the same way, regardless of how differently each ecosystem actually works under the hood.
 - **Recipes don't know about storage.** Every source writes to `ctx.destdir` and stops — deciding whether that output becomes part of SilkOS's content-addressed store or gets bundled into an OSTree commit is a separate, later concern recipes never have to think about.
 - **Authoritative over cached.** Where a choice existed (AUR: RPC API vs. git clone; Nix: live eval vs. a pinned mapping), Weave favors fetching directly from the real source over a cached/indirect index.
-- **Portability first.** No CPU-native optimization flags, ever — packages need to run on arbitrary end-user hardware, not just the machine that built them.
-
-## Open questions
-
-A few pieces are intentionally still unresolved — see the project's technical reference doc for full detail:
-
-- Exact mechanics of the storage staging pass (`ctx.destdir` → `store/` or an OSTree commit)
-- Provisioning of the persistent `loom-build` system user
-- Classic Nix channel support (currently flakes-only by design)
-- `loom`'s own CLI subcommand set, including `-y`/`--yes`
 
 ## License
 
-*(Add your chosen license here before making the repo public.)*
+GPLv3
